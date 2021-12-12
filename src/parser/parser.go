@@ -16,18 +16,22 @@ const (
 )
 
 // ParseAlbumMainPage parser album main max page number
-func ParseAlbumMainPage(body io.Reader) (int, error) {
+func ParseAlbumMainPage(body io.Reader) (int64, error) {
 	doc, err := goquery.NewDocumentFromReader(body)
 	if err != nil {
 		return 0, errors.Errorf("failed to new goquery document: %v", err)
 	}
 
-	maxPage := 0
+	var maxPage int64
 	doc.Find(".page-item").Each(func(i int, s *goquery.Selection) {
 		pageLink, ok := s.Attr("href")
 		if !ok {
+			// div.page-item.at-this-page
+			p, _ := strconv.ParseInt(s.Text(), 10, 64)
+			maxPage = int64(math.Max(float64(maxPage), float64(p)))
 			return
 		}
+
 		url.Parse(pageLink)
 		u, err := url.Parse(pageLink)
 		if err != nil {
@@ -41,7 +45,7 @@ func ParseAlbumMainPage(body io.Reader) (int, error) {
 		}
 		if page := vs.Get("page"); page != "" {
 			p, _ := strconv.ParseInt(page, 10, 64)
-			maxPage = int(math.Max(float64(maxPage), float64(p)))
+			maxPage = int64(math.Max(float64(maxPage), float64(p)))
 		}
 	})
 

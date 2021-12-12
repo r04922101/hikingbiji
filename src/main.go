@@ -60,7 +60,7 @@ func clapAlbum(ctx context.Context, httpClient *http.Client, albumID string) ([]
 
 	// clap album pages concurrently
 	errorgroup, gctx := errgroup.WithContext(ctx)
-	for page := 1; page <= maxPage; page++ {
+	for page := 1; page <= int(maxPage); page++ {
 		pageQuery := albumURL.Query()
 		pageQuery.Add("page", fmt.Sprint(page))
 		albumPageURL := &url.URL{
