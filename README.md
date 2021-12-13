@@ -29,6 +29,11 @@ cd src
 GOOS=windows GOARCH=amd64 go build -v -o hikingbiji.exe ./main.go
 ```
 
+## TODO
+
+Implement a Chrome Extension to achieve the same goal. \
+Using Chrome Extension will be more user-friendly and more convinient.
+
 ---
 
 ## Disclaimer
