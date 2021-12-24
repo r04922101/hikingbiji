@@ -1,0 +1,15 @@
+button#clap-album {
+  background-color: yellow;
+  align-items: center;
+  border-radius: 5px;
+  color: black;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 13px;
+  padding: 4px 10px;
+  width: auto;
+  position: relative;
+  text-align: center;
+  box-sizing: border-box;
+  margin: 10px;
+}
