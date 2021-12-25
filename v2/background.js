@@ -1,4 +1,3 @@
-// listen to a message from content script
 const domain = ".biji.co";
 let headerCookies;
 (async function constructCookieHeader() {
@@ -8,9 +7,10 @@ let headerCookies;
     .join("; ");
 })();
 
+// listen to a message from content script
 chrome.runtime.onConnect.addListener(function (port) {
   port.onMessage.addListener(async function (message) {
-    const { albumId } = message;
+    const { albumId, photoIds } = message;
     // TODO: send back progress
     // port.postMessage({question: "Who's there?"});
     return true;
