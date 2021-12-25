@@ -15,7 +15,7 @@ const (
 	albumSize = 24
 )
 
-// ParseAlbumMainPage parser album main max page number
+// ParseAlbumMainPage parses album main max page number
 func ParseAlbumMainPage(body io.Reader) (int64, error) {
 	doc, err := goquery.NewDocumentFromReader(body)
 	if err != nil {
@@ -32,7 +32,6 @@ func ParseAlbumMainPage(body io.Reader) (int64, error) {
 			return
 		}
 
-		url.Parse(pageLink)
 		u, err := url.Parse(pageLink)
 		if err != nil {
 			err = errors.Errorf("failed to parse link %s: %v", pageLink, err)
@@ -52,7 +51,7 @@ func ParseAlbumMainPage(body io.Reader) (int64, error) {
 	return maxPage, nil
 }
 
-// ParseAlbumPage parser an album page to get photo IDs
+// ParseAlbumPage parses an album page to get photo IDs
 func ParseAlbumPage(body io.Reader) ([]string, error) {
 	doc, err := goquery.NewDocumentFromReader(body)
 	if err != nil {
@@ -65,7 +64,6 @@ func ParseAlbumPage(body io.Reader) ([]string, error) {
 		if !ok {
 			return
 		}
-		url.Parse(photoLink)
 		u, err := url.Parse(photoLink)
 		if err != nil {
 			err = errors.Errorf("failed to parse link %s: %v", photoLink, err)
