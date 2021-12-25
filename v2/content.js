@@ -1,33 +1,42 @@
 const baseURL = "https://hiking.biji.co";
 
-async function clapAlbum() {
-  alert("clapping album");
-  const port = chrome.runtime.connect({ name: "hikingbiji" });
+function clapAlbum(button) {
+  return async function () {
+    const port = chrome.runtime.connect({ name: "hikingbiji" });
+    let progress = 0;
+    let photoIds = [];
 
-  // TODO: handle message from service worker
-  // TODO: show progress on web
-  port.onMessage.addListener(function (message) {});
+    // listen to progress message
+    port.onMessage.addListener(function (message) {
+      ({ progress } = message);
+      button.innerHTML = `${progress}/${photoIds.length}`;
 
-  // TODO: handle disconnect event
-  port.onDisconnect.addListener(() => {
-    alert("connection disconnect");
-  });
+      // all works are done. close the port
+      if (progress === photoIds.length) {
+        button.innerHTML = "DONE";
+        port.disconnect();
+      }
+    });
 
-  const albumId = new URLSearchParams(window.location.search).get("album_id");
-  // get max page
-  const mainPageText = await getAlbumMainPage(albumId);
-  const maxPage = parseAlbumMainPage(mainPageText);
+    const albumId = new URLSearchParams(window.location.search).get("album_id");
+    // get max page
+    const mainPageText = await getAlbumMainPage(albumId);
+    const maxPage = parseAlbumMainPage(mainPageText);
 
-  // get all photo IDs
-  const pages = Array.from({ length: maxPage }, (_, i) => i + 1);
-  const photoIds = (
-    await Promise.all(pages.map((page) => getAlbumPage(albumId, page)))
-  )
-    .map((text) => parseAlbumPage(text))
-    .flat();
+    // get all photo IDs
+    const pages = Array.from({ length: maxPage }, (_, i) => i + 1);
+    photoIds = (
+      await Promise.all(pages.map((page) => getAlbumPage(albumId, page)))
+    )
+      .map((text) => parseAlbumPage(text))
+      .flat();
 
-  // send album ID and photo IDs to service worker 
-  port.postMessage({ albumId, photoIds });
+    // send album ID and photo IDs to service worker
+    port.postMessage({ albumId, photoIds });
+
+    // change button text to show progress
+    button.innerHTML = `0/${photoIds.length}`;
+  };
 }
 
 async function getAlbumMainPage(albumId) {
@@ -90,5 +99,5 @@ let sns = document.querySelector("div.sns-block");
 let button = document.createElement("button");
 button.innerHTML = "Clap album";
 button.setAttribute("id", "clap-album");
-button.addEventListener("click", clapAlbum);
+button.addEventListener("click", clapAlbum(button));
 sns.appendChild(button);
