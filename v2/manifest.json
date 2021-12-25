@@ -9,18 +9,18 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://hiking.biji.co/index.php?q=album&act=photo_list&album_id=*"],
-      "run_at": "document_idle",
-      "js": [
-        "content.js"
+      "matches": [
+        "https://hiking.biji.co/index.php?q=album&act=photo_list&album_id=*"
       ],
-      "css": [
-        "button.css"
-      ]
+      "run_at": "document_idle",
+      "js": ["content.js"],
+      "css": ["button.css"]
     }
   ],
   "background": {
     "service_worker": "background.js",
     "type": "module"
-  }
+  },
+  "permissions": ["cookies"],
+  "host_permissions": ["*://biji.co/*"]
 }
