@@ -13,8 +13,9 @@ function clapAlbum() {
     alert("connection disconnect");
   });
   
-  // post message to instruct to start clapping the album
-  port.postMessage({ start: true });
+  // post message with album ID to instruct to which album to clap
+  const albumId = new URLSearchParams(window.location.search).get('album_id')
+  port.postMessage({ albumId });
 }
 
 let sns = document.querySelector("div.sns-block");
