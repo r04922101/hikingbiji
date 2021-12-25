@@ -10,9 +10,16 @@ let headerCookies;
 // listen to a message from content script
 chrome.runtime.onConnect.addListener(function (port) {
   port.onMessage.addListener(async function (message) {
+    let progress = 0;
     const { albumId, photoIds } = message;
-    // TODO: send back progress
-    // port.postMessage({question: "Who's there?"});
+    // clap each photo concurrently and post progress back
+    await Promise.all(
+      photoIds.map(async (photoId) => {
+        await clapPhoto(albumId, photoId, headerCookies);
+        progress += 1;
+        return port.postMessage({ progress });
+      })
+    );
     return true;
   });
 });
