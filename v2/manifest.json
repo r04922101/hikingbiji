@@ -9,7 +9,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://hiking.biji.co/index.php?q=album*"],
+      "matches": ["https://hiking.biji.co/index.php?q=album&act=photo_list&album_id=*"],
       "run_at": "document_idle",
       "js": [
         "content.js"
