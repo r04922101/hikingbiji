@@ -2,6 +2,7 @@ const baseURL = "https://hiking.biji.co";
 
 function clapAlbum(button) {
   return async function () {
+    button.setAttribute("disabled", true);
     const port = chrome.runtime.connect();
     let progress = 0;
     let photoIds = [];
