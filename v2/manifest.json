@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "hikingbiji-clap-album",
   "description": "",
-  "version": "0.1",
+  "version": "1.0",
   "author": "Tony Huang",
   "icons": {
     "256": "image/clap-512x512.png"
