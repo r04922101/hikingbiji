@@ -5,7 +5,16 @@ let headerCookies;
   headerCookies = cookies
     .map((cookie) => `${cookie.name}=${cookie.value}`)
     .join("; ");
-})();
+})()
+
+function constructUAHeader() {
+  const { brands } = navigator.userAgentData;
+  return brands
+    .map(({ brand, version }) => `"${brand}";v="${version}"`)
+    .join(", ");
+}
+const ua = constructUAHeader();
+const { platform } = navigator.userAgentData;
 
 // listen to a message from content script
 chrome.runtime.onConnect.addListener(function (port) {
@@ -30,10 +39,9 @@ async function clapPhoto(albumId, apId, headerCookies) {
       accept: "*/*",
       "accept-language": "en-US,en;q=0.9,zh-TW;q=0.8,zh;q=0.7",
       "content-type": "text/plain;charset=UTF-8",
-      "sec-ch-ua":
-        '"Microsoft Edge";v="95", "Chromium";v="95", ";Not A Brand";v="99"',
+      "sec-ch-ua": ua,
       "sec-ch-ua-mobile": "?0",
-      "sec-ch-ua-platform": '"macOS"',
+      "sec-ch-ua-platform": platform,
       "sec-fetch-dest": "empty",
       "sec-fetch-mode": "cors",
       "sec-fetch-site": "same-origin",
