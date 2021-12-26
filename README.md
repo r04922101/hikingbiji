@@ -4,35 +4,32 @@
 
 I always see my mom using her phone and also dozing off at the midnight :( \
 I find out the reason why she does not go to bed is that \
-she is always manually clicking "clap" button on her hiking.biji album photos sequentially, \
+she is always manually clicking "clap" button on her hiking.biji album photos one by one, \
 in order to gain more popularity. \
 As a software engineer, I decided to help her do this work and let her go to bed earlier.
 
-## How to Run
+## [Solution v1](./README_v1.md)
 
-1. Login hiking.biji and go to the album you want to clap
-2. Get album ID from the web address \
-   <https://hiking.biji.co/index.php?q=album&act=photo_list&album_id={ALBUM_ID}>
-3. Get your cookie from developer tools
-4. Run the following commands
+I implemented a program written in Go and compile it into Windows executable file. \
+The program needs users to input album ID and cookies, which represent the user identity. \
+However, opening developer tool to copy cookie values and extracting album ID from address bar \
+are not easy for the olders.
+Hence, solution v2 comes out.
 
-```sh
-cd src
-go mod tidy
-go run ./main.go --album={albumID} --cookie={cookie}
-```
+## Solution v2
 
-## How to Compile for Windows
+A Google Chrome extension. \
+After installation, everytime accessing to a hikingbiji album, there will be an injected button "拍手👏🏽" showing up.
+![clap-button](./clap-button.png)
+Click the button and it will automatically clap all photos in the album.
 
-```sh
-cd src
-GOOS=windows GOARCH=amd64 go build -v -o hikingbiji.exe ./main.go
-```
+## How to Install
 
-## TODO
-
-Implement a Chrome Extension to achieve the same goal. \
-Using Chrome Extension will be more user-friendly and more convinient.
+- Open extension management page by navigating to
+  - <chrome://extensions> on Google Chrome
+  - <edge://extensions> on Microsoft Edge
+- Enable Developer Mode by clicking the toggle switch next to Developer mode
+- Click the `Load unpacked` button and select the extension directory
 
 ---
 
