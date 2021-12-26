@@ -2,7 +2,7 @@ const baseURL = "https://hiking.biji.co";
 
 function clapAlbum(button) {
   return async function () {
-    const port = chrome.runtime.connect({ name: "hikingbiji" });
+    const port = chrome.runtime.connect();
     let progress = 0;
     let photoIds = [];
 
