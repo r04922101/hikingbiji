@@ -97,7 +97,7 @@ function parseAlbumPage(text) {
 
 let sns = document.querySelector("div.sns-block");
 let button = document.createElement("button");
-button.innerHTML = "Clap album";
+button.innerHTML = "拍手👏🏽";
 button.setAttribute("id", "clap-album");
 button.addEventListener("click", clapAlbum(button));
 sns.appendChild(button);
