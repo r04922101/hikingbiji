@@ -96,9 +96,9 @@ function parseAlbumPage(text) {
   return photoIds;
 }
 
-let sns = document.querySelector("div.sns-block");
+let funcBlock = document.querySelector("div.func-block");
 let button = document.createElement("button");
 button.innerHTML = "拍手👏🏽";
 button.setAttribute("id", "clap-album");
 button.addEventListener("click", clapAlbum(button));
-sns.appendChild(button);
+funcBlock.appendChild(button);
