@@ -42,28 +42,32 @@ async function clapPhoto(albumId, photoId, headerCookies) {
   do {
     try {
       tryCount += 1;
-      const { status } = await (
-        await fetch("https://hiking.biji.co/album/ajax/clap_photo", {
-          headers: {
-            accept: "*/*",
-            "accept-language": "en-US,en;q=0.9,zh-TW;q=0.8,zh;q=0.7",
-            "content-type": "text/plain;charset=UTF-8",
-            "sec-ch-ua": ua,
-            "sec-ch-ua-mobile": "?0",
-            "sec-ch-ua-platform": platform,
-            "sec-fetch-dest": "empty",
-            "sec-fetch-mode": "cors",
-            "sec-fetch-site": "same-origin",
-            cookies: headerCookies,
-          },
-          referrer: `https://hiking.biji.co/index.php?q=album&act=photo&album_id=${albumId}&ap_id=${photoId}`,
-          referrerPolicy: "no-referrer-when-downgrade",
-          body: `{"id":"${photoId}"}`,
-          method: "POST",
-          mode: "cors",
-          credentials: "include",
-        })
-      ).json();
+      const referrer = `https://hiking.biji.co/index.php?q=album&act=photo&album_id=${albumId}&ap_id=${photoId}`;
+      const [{ status }] = await Promise.all([
+        (
+          await fetch("https://hiking.biji.co/album/ajax/clap_photo", {
+            headers: {
+              accept: "*/*",
+              "accept-language": "en-US,en;q=0.9,zh-TW;q=0.8,zh;q=0.7",
+              "content-type": "text/plain;charset=UTF-8",
+              "sec-ch-ua": ua,
+              "sec-ch-ua-mobile": "?0",
+              "sec-ch-ua-platform": platform,
+              "sec-fetch-dest": "empty",
+              "sec-fetch-mode": "cors",
+              "sec-fetch-site": "same-origin",
+              cookies: headerCookies,
+            },
+            referrer,
+            referrerPolicy: "no-referrer-when-downgrade",
+            body: `{"id":"${photoId}"}`,
+            method: "POST",
+            mode: "cors",
+            credentials: "include",
+          })
+        ).json(),
+        fetch(referrer),
+      ]);
       ok = true;
       console.log(`finished clapping photo ${photoId} with status ${status}`);
     } catch (err) {
