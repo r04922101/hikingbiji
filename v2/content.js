@@ -96,7 +96,7 @@ function parseAlbumPage(text) {
   return photoIds;
 }
 
-let funcBlock = document.querySelector("div.func-block");
+let funcBlock = document.querySelector("div.g-share-wrap");
 let button = document.createElement("button");
 button.innerHTML = "拍手👏🏽";
 button.setAttribute("id", "clap-album");
