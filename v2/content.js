@@ -81,8 +81,8 @@ function parseAlbumPage(text) {
   const parser = new DOMParser();
   const doc = parser.parseFromString(text, "text/html");
 
-  doc.querySelectorAll("a.postMeta-img.img-container").forEach((item) => {
-    const photoLink = item.getAttribute("href");
+  doc.querySelectorAll("li.photo-item").forEach((item) => {
+    const photoLink = item.firstElementChild.getAttribute("href");
     if (!photoLink) {
       return;
     }
